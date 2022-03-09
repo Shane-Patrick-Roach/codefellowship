@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>I AM ERROR</title>
+</head>
+<body>
+<br><div th:replace="/fragments/nav-header :: h3"></div>
+<img src="https://i.imgur.com/qceU1hc.jpg" style="width:100%">
+<h2 th:text="${errorMessage}"></h2>
+</body>
+</html>

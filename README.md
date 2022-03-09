@@ -13,8 +13,12 @@ This application provides a space for Codefellow students to connect.
 4. At the home page `/`, you can create an account, and once logged in see personal information displayed on landing page.
 
 
-## Port Instructions
+## Application Paths
 
-- 'http://localhost:8080/'
+- `"/"` Home page
+- `"/login` Login page
+- `"/signup` Sign Up page
+- `"/finduserprofile/{id}"` Find an existing user profile. 
+
 
 ## Resources/Citations

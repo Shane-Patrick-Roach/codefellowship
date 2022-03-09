@@ -8,6 +8,7 @@
     <title>Login Page</title>
 </head>
 <body>
+<div th:replace="/fragments/nav-header :: h3"></div>
 <h1>Please Login!</h1>
 <form action="/login" method="post">
     <label for="username">Username</label>
@@ -18,7 +19,7 @@
 </form>
 
 <h2>Don't have an Account?</h2>
-<h3>Click Here to Create an Account <a href="/signup">here</a></h3>
+<h3>Click <a href="/signup">here</a> to create an account.</h3>
 <h3>Click <a href="/">here</a> to return home.</h3>
 </body>
 </html>
