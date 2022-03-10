@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
 
@@ -20,8 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class ApplicationUserController {
@@ -112,10 +112,13 @@ public class ApplicationUserController {
             String firstName = applicationUser.getFirstName();
             LocalDate dateOfBirth = applicationUser.getDateOfBirth();
             List<Post> posts = applicationUser.getPostsOfThisUser();
+            //System.out.println(applicationUser.getUsersWhoIFollow());
+            m.addAttribute("whoIFollow", applicationUser.getUsersWhoIFollow());
             m.addAttribute("username", username);
             m.addAttribute("firstName", firstName);
             m.addAttribute("applicationUser", applicationUser);
             m.addAttribute("posts", posts);
+
         }
         return "secretPage.html";
     }
@@ -136,7 +139,57 @@ public class ApplicationUserController {
     }
 
 
+    @GetMapping("/findallusers")
+    public String getFindUsersPage(Principal p, Model m){
+
+        if (p != null) {
+            String username = p.getName();
+
+            ArrayList<ApplicationUser> peopleList = new ArrayList<>();
+
+            for (ApplicationUser appUser : applicationUserRepository.findAll()) {
+                if (!p.getName().equals(appUser.getUsername())) {
+                    peopleList.add(appUser);
+                }
+
+            }
+            m.addAttribute("username", username);
+            m.addAttribute("applicationUser", peopleList);
+        }
+
+        return "findAllUsers.html";
+    }
 
 
+    @PostMapping("/follow-user")
+    public RedirectView followUser(Principal p, Model m, long applicationUserId){
 
+        ApplicationUser loggedInUser = (ApplicationUser) applicationUserRepository.findByUsername(p.getName());
+        ApplicationUser userIFollowed = applicationUserRepository.getById(applicationUserId);
+        System.out.println(applicationUserId);
+
+        //Set<ApplicationUser> userIFollowedList = userIFollowed.getUsersWhoFollowMe();
+
+        userIFollowed.getUsersWhoFollowMe().add(loggedInUser);
+        applicationUserRepository.save(userIFollowed);
+
+        return new RedirectView("/");
+    }
+
+    @GetMapping("/feed")
+    public String getFeed(Principal p, Model m) {
+
+        if (p != null) {
+            String username = p.getName();
+            ApplicationUser applicationUser = (ApplicationUser) applicationUserRepository.findByUsername(username);
+            ArrayList<Post> postsIFollow = new ArrayList<>();
+
+            for (ApplicationUser userIFollow: applicationUser.getUsersWhoIFollow()) {
+                postsIFollow.addAll(userIFollow.getPostsOfThisUser());
+            }
+            m.addAttribute("postsIFollow", postsIFollow);
+            m.addAttribute("username", username);
+        }
+        return "feed.html";
+    }
 }
