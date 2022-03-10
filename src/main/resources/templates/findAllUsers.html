@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Find all users</title>
+</head>
+
+
+
+<style>
+
+    .user {
+  margin: auto;
+  width: 30%;
+  border: 3px solid #96AD63;
+  padding: 10px;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom: 25px;
+}
+</style>
+
+<body>
+<div th:replace="/fragments/nav-header :: h3"></div>
+
+<h1>Connect with different Users!</h1>
+
+
+<span th:each="user : ${applicationUser}">
+        <div class="user">
+        <h2 th:text="${'User: ' + user.username}"></h2>
+        <p th:text="${'Name: ' + user.firstName + ' ' + user.lastName}"></p>
+            <form action="/follow-user" th:method="post">
+                    <input type="hidden" name="applicationUserId" th:value="${user.id}">
+                    <input type="submit" value="Follow">
+            </form>
+        </div>
+    </span>
+
+
+<h3>Click <a href="/">here</a> to go home.</h3>
+
+</body>
+</html>

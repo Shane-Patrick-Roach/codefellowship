@@ -19,6 +19,7 @@ This application provides a space for Codefellow students to connect.
 - `"/login` Login page
 - `"/signup` Sign Up page
 - `"/finduserprofile/{id}"` Find an existing user profile. 
-
+- `"/feed` Find all the posts of Users that you follow.
+- `"/findAllUsers` List of all the current account holders of codefellowship.
 
 ## Resources/Citations

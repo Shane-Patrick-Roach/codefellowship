@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class ApplicationUser implements UserDetails {
@@ -28,6 +29,35 @@ public class ApplicationUser implements UserDetails {
     @OneToMany(mappedBy = "postsOfUser", cascade = CascadeType.ALL)
     @OrderBy("createdAt")
     List<Post> postsOfThisUser;
+
+
+    @ManyToMany(mappedBy = "usersWhoFollowMe")
+    Set<ApplicationUser> usersWhoIFollow;
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "iFollow_to_followMe",
+            joinColumns = {@JoinColumn(name="iFollow")},
+            inverseJoinColumns = {@JoinColumn(name="followMe")}
+    )
+    Set<ApplicationUser> usersWhoFollowMe;
+
+    public Set<ApplicationUser> getUsersWhoIFollow() {
+        return usersWhoIFollow;
+    }
+
+    public void setUsersWhoIFollow(Set<ApplicationUser> usersWhoIFollow) {
+        this.usersWhoIFollow = usersWhoIFollow;
+    }
+
+    public Set<ApplicationUser> getUsersWhoFollowMe() {
+        return usersWhoFollowMe;
+    }
+
+    public void setUsersWhoFollowMe(Set<ApplicationUser> usersWhoFollowMe) {
+        this.usersWhoFollowMe = usersWhoFollowMe;
+    }
 
     public List<Post> getPostsOfThisUser() {
         return postsOfThisUser;

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Feed</title>
+</head>
+
+
+<style>
+  .posts {
+  margin: auto;
+  width: 60%;
+  border: 3px solid #73AD21;
+  padding: 10px;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom: 25px;
+}
+</style>
+<body>
+
+<div th:replace="/fragments/nav-header :: h3"></div>
+<h1>Your Feed</h1>
+
+<span th:each="post : ${postsIFollow}">
+        <div class="posts">
+        <h2 th:text="${'Post: ' + post.body}"></h2>
+            <form action="/view-profile-post" th:method="get">
+                    <input type="hidden" name="postId" th:value="${post.id}">
+                    <input type="submit" value="View Profile">
+            </form>
+        </div>
+    </span>
+<h3>Click <a href="/">here</a> to go home.</h3>
+
+</body>
+</html>
